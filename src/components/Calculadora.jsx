@@ -8,9 +8,28 @@ const Calculadora = () => {
 
     const escritura = (evento) => {
 
-        if(data.operacion.length > 10 ) return
-        setData( {...data , operacion: `${data.operacion}`+ `${ evento.target.innerText }`}) ;
-    } 
+     const valor = evento.target.innerText ;
+     const esOperacion = valor === "+" || valor === "-" || valor === "*" || valor === "/" || valor === "%" 
+
+     if( data.operacion.length >= 10 ) return 
+     if( valor === '+/-' && data.operacion === '') return
+
+     if(data.operacion.includes("Error")){
+        setData( {...data , operacion: valor} )
+     }
+
+        else if( valor === '+/-' && data.operacion !== '') {
+            if( data.operacion.slice(0,1) === '-' ){
+                setData( {...data , operacion:`${ data.operacion.slice(1 , data.operacion.length)}`})
+            }else{
+                setData( {...data , operacion : `-${data.operacion}`})
+            }
+
+        }else{
+            setData( {...data , operacion : `${data.operacion}` + valor})
+        }
+        
+    }
 
     const borrarNumero = () =>{
             setData( {...data , operacion: data.operacion.slice(0 , data.operacion.length - 1 )}) 
@@ -21,8 +40,13 @@ const Calculadora = () => {
     }
 
     const resultado = () =>{
-        const resultado= eval(data.operacion);
-        setData( {...data , resultado} )
+        try {
+           const resultado= eval(data.operacion);
+            setData( {...data , resultado} )
+        } catch (error) {
+            setData({...data , operacion: "Error"})
+        }
+        
     }
 
   
@@ -35,8 +59,8 @@ const Calculadora = () => {
         <span  className='display' > { data.operacion } </span>
         
         <Boton texto="C" clase="gris"  handleClick={ limpiar }/>
-        <Boton texto="+/-" clase="gris"  />
-        <Boton texto="%" clase="gris"  />
+        <Boton texto="+/-" clase="gris"  handleClick={ escritura }/>
+        <Boton texto="%" clase="gris" handleClick={ escritura } />
         <Boton texto="/" clase="operacion" handleClick={ escritura }/>
         <Boton texto="7" clase="numero" handleClick={ escritura }/>
         <Boton texto="8" clase="numero" handleClick={ escritura }/>
