@@ -1,5 +1,15 @@
 :root{
   font-family: Arial, Helvetica, sans-serif;
+  --fondo: #17171c;/* #F1F2F3*/
+  --fondo-calculadora: #f1f2f3; /*  #17171C*/
+  --texto: #000; /* #FFF*/
+  --primario: #4b5efc; /* #FB5EFC*/
+  --secundario: #c8c9cf;/* #4E505F*/
+  --terciario: #fff; /*  #2E2F38*/
+  --box-shadow: 0 0 50px rgba(0,0,0, 0.20);
+
+  background-color: var(--fondo);
+  color:var(--texto);
 }
 
 *{
@@ -13,12 +23,3 @@
   place-items: center;
 }
 
-main{
-  background-color: gray;
-  aspect-ratio: 9/16;
-  border-radius: 40px;
-  height: 90%;
-  min-height: 600px;
-  box-shadow: 0 0 50px rgba(0,0,0, 0.20);
-  text-align: center;
-}
