@@ -13,9 +13,12 @@ const Calculadora = () => {
 
      if( data.operacion.length >= 10 ) return 
      if( valor === '+/-' && data.operacion === '') return
+     if( valor === '%' && data.operacion.includes('%')) return
 
      if(data.operacion.includes("Error")){
         setData( {...data , operacion: valor} )
+     }else if( data.resultado !== '' && data.operacion ==="" && esOperacion){
+        setData( {...data , operacion : `${ data.resultado}` + valor} )  
      }
 
         else if( valor === '+/-' && data.operacion !== '') {
@@ -28,7 +31,7 @@ const Calculadora = () => {
         }else{
             setData( {...data , operacion : `${data.operacion}` + valor})
         }
-        
+
     }
 
     const borrarNumero = () =>{
@@ -41,8 +44,15 @@ const Calculadora = () => {
 
     const resultado = () =>{
         try {
-           const resultado= eval(data.operacion);
-            setData( {...data , resultado} )
+           let resultado= "" ;
+           if( data.operacion.includes('%')){
+            const valores =  data.operacion.split('%');
+            resultado = eval(`${valores[1]}*(${valores[0]}/100)`)
+
+           }else{
+           resultado = eval(data.operacion);
+           }
+            setData( {...data , resultado , operacion:''} )
         } catch (error) {
             setData({...data , operacion: "Error"})
         }
